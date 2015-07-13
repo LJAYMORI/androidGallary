@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- ActionBar -->
+    <color name="actionbar_background">#fff</color>
+    <color name="actionbar_letter_focus">#ff7d00</color>
+    <color name="actionbar_letter_unfocus">#7f7f7f</color>
+
+</resources>

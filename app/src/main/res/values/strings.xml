@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PhotoGallary</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- ActionBar -->
+    <string name="actionbar_all">All</string>
+    <string name="actionbar_picture">Picture</string>
+    <string name="actionbar_video">Video</string>
+
+</resources>

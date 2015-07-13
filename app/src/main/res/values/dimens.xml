@@ -1,0 +1,20 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- ActionBar -->
+    <dimen name="actionbar_tab_left_right_padding">7dp</dimen>
+    <dimen name="actionbar_tab_top_bottom_padding">10dp</dimen>
+    <dimen name="actionbar_tab_width">60dp</dimen>
+
+    <!-- All -->
+    <dimen name="all_item_width_height">120dp</dimen>
+
+    <!-- Video -->
+    <dimen name="video_item_height">100dp</dimen>
+    <dimen name="video_item_image_margin">7dp</dimen>
+    <dimen name="video_item_desc_margin">7dp</dimen>
+
+
+</resources>
