@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ljaymori.photogallary.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class PictureItemView extends RecyclerView.ViewHolder {
 
@@ -16,7 +17,7 @@ public class PictureItemView extends RecyclerView.ViewHolder {
     }
 
     public void setAllItemView(PictureItemData ad) {
-//        ImageLoader.getInstance().displayImage(ad.getFilePath(), ivThumbnail);
+        ImageLoader.getInstance().displayImage("file://" + ad.getFilePath(), ivThumbnail);
     }
 
 }

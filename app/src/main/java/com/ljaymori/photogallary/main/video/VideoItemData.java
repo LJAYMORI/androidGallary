@@ -5,6 +5,8 @@ public class VideoItemData {
     private String filePath;
     private String fileName;
     private String fileType;
+    private String fileThumbnail;
+    private String takenDate;
     private float fileSize;
 
     public String getFilePath() {
@@ -29,6 +31,22 @@ public class VideoItemData {
 
     public void setFileType(String fileType) {
         this.fileType = fileType;
+    }
+
+    public String getFileThumbnail() {
+        return fileThumbnail;
+    }
+
+    public void setFileThumbnail(String fileThumbnail) {
+        this.fileThumbnail = fileThumbnail;
+    }
+
+    public String getTakenDate() {
+        return takenDate;
+    }
+
+    public void setTakenDate(String takenDate) {
+        this.takenDate = takenDate;
     }
 
     public float getFileSize() {

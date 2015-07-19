@@ -1,8 +1,12 @@
 package com.ljaymori.photogallary.main;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,7 +25,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public static final int PAGE_POSITION_ALL = 0;
     public static final int PAGE_POSITION_PICTURE = 1;
     public static final int PAGE_POSITION_VIDEO = 2;
-
 
 
     private View actionbarView;
@@ -52,6 +55,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void initActionBar() {
+        getSupportActionBar().setTitle("");
+
         actionbarView = LayoutInflater.from(this).inflate(R.layout.actionbar_main, null);
 
         tvTabAll = (TextView) actionbarView.findViewById(R.id.text_all_actionbar);
@@ -62,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         tvTabPicture.setOnClickListener(this);
         tvTabVideo.setOnClickListener(this);
 
-        TextView tv = (TextView)actionbarView.findViewById(R.id.text_test);
+        TextView tv = (TextView) actionbarView.findViewById(R.id.text_test);
         tv.setOnClickListener(this);
 
         getSupportActionBar().setCustomView(actionbarView);
@@ -147,7 +152,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 viewPager.setCurrentItem(PAGE_POSITION_VIDEO, true);
                 break;
             }
-            case R.id.text_test : {
+            case R.id.text_test: {
                 Toast.makeText(MainActivity.this, "test", Toast.LENGTH_SHORT).show();
                 test();
                 break;
@@ -155,8 +160,33 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    // http://stackoverflow.com/questions/18172074/get-images-thumbnail-file-paths
     private void test() {
+        Uri uri;
+        Cursor cursor;
+        int column_index_data, column_index_folder_name, colmun_index_tuhmbnail;
+        ArrayList<String> listOfAllImages = new ArrayList<String>();
+        String absolutePathOfImage;
+//        String absoluteThumbnalPathOfImage;
+        uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
+        String[] projection = { MediaStore.MediaColumns.DATA,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+
+        cursor = getContentResolver().query(uri, projection, null,
+                null, null);
+
+        column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+//        column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+//        colmun_index_tuhmbnail = cursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.DATA);
+        while (cursor.moveToNext()) {
+            absolutePathOfImage = cursor.getString(column_index_data);
+//            absoluteThumbnalPathOfImage = cursor.getString(colmun_index_tuhmbnail);
+
+            Log.i("imagePath", absolutePathOfImage);
+//            Log.i("thumbnailPath", absoluteThumbnalPathOfImage);
+//            listOfAllImages.add(absolutePathOfImage);
+        }
     }
 
 }

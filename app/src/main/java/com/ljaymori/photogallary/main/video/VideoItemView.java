@@ -1,5 +1,8 @@
 package com.ljaymori.photogallary.main.video;
 
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +17,10 @@ public class VideoItemView extends RecyclerView.ViewHolder {
     private TextView tvType;
     private TextView tvSize;
 
+    private Bitmap thumbnail;
+
+    private VideoItemData itemData;
+
     public VideoItemView(View itemView) {
         super(itemView);
         
@@ -24,9 +31,16 @@ public class VideoItemView extends RecyclerView.ViewHolder {
     }
 
     public void setVideoItemView(VideoItemData vd) {
-//        ImageLoader.getInstance().displayImage(vd.getFilePath(), ivThumbnail);
+        itemData = vd;
+
+        thumbnail = ThumbnailUtils.createVideoThumbnail(vd.getFilePath(), MediaStore.Images.Thumbnails.MICRO_KIND);
+//        ImageLoader.getInstance().displayImage("file://" + vd.getFilePath(), ivThumbnail);
+
+        ivThumbnail.setImageBitmap(thumbnail);
         tvName.setText(vd.getFileName());
         tvType.setText(vd.getFileType());
-        tvSize.setText(vd.getFileSize()+"");
+        tvSize.setText(String.format("%.2fMB", vd.getFileSize()));
     }
+
+
 }

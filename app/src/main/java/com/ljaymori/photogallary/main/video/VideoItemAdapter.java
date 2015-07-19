@@ -39,4 +39,15 @@ public class VideoItemAdapter extends RecyclerView.Adapter<VideoItemView> {
     public int getItemCount() {
         return items.size();
     }
+
+    @Override
+    public void onViewAttachedToWindow(VideoItemView holder) {
+        super.onViewAttachedToWindow(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(VideoItemView holder) {
+        super.onViewDetachedFromWindow(holder);
+    }
+
 }
