@@ -1,4 +1,4 @@
-# androidGellary
+# androidGallery
 Photo gallery
 
 Cacheable using AUIL Media(image, video) Gallery
