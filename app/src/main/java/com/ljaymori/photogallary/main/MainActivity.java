@@ -2,6 +2,7 @@ package com.ljaymori.photogallary.main;
 
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
@@ -10,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ljaymori.photogallary.R;
 import com.ljaymori.photogallary.main.all.AllFragment;
@@ -26,6 +26,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public static final int PAGE_POSITION_PICTURE = 1;
     public static final int PAGE_POSITION_VIDEO = 2;
 
+    public static final String KEY_ALL = "all";
+    public static final String KEY_PICTURE = "picture";
+    public static final String KEY_VIDEO = "video";
+
+    private ArrayList<MediaItemData> allList = new ArrayList<MediaItemData>();
+    private ArrayList<MediaItemData> imageList = new ArrayList<MediaItemData>();
+    private ArrayList<MediaItemData> videoList = new ArrayList<MediaItemData>();
 
     private View actionbarView;
     private TextView tvTabAll;
@@ -39,6 +46,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private MainPagerAdapter pagerAdapter;
     private VideoFragment videoFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +58,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // init Fragments
         initFragments();
 
-        // init Pager
-        initPager();
     }
 
     private void initActionBar() {
@@ -67,20 +73,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         tvTabPicture.setOnClickListener(this);
         tvTabVideo.setOnClickListener(this);
 
-        TextView tv = (TextView) actionbarView.findViewById(R.id.text_test);
-        tv.setOnClickListener(this);
-
         getSupportActionBar().setCustomView(actionbarView);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
     }
 
     private void initFragments() {
-        allFragment = new AllFragment();
-
-        pictureFragment = new PictureFragment();
-
-        videoFragment = new VideoFragment();
-
+        new MediaLoadAsync().execute();
     }
 
     private void initPager() {
@@ -152,11 +150,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 viewPager.setCurrentItem(PAGE_POSITION_VIDEO, true);
                 break;
             }
-            case R.id.text_test: {
-                Toast.makeText(MainActivity.this, "test", Toast.LENGTH_SHORT).show();
-                test();
-                break;
-            }
+
         }
     }
 
@@ -170,8 +164,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 //        String absoluteThumbnalPathOfImage;
         uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-        String[] projection = { MediaStore.MediaColumns.DATA,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+        String[] projection = {MediaStore.MediaColumns.DATA,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
 
         cursor = getContentResolver().query(uri, projection, null,
                 null, null);
@@ -187,6 +181,121 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 //            Log.i("thumbnailPath", absoluteThumbnalPathOfImage);
 //            listOfAllImages.add(absolutePathOfImage);
         }
+    }
+
+    class MediaLoadAsync extends AsyncTask<Void, Void, ArrayList<MediaItemData>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<MediaItemData> doInBackground(Void... params) {
+            ArrayList<MediaItemData> list = new ArrayList<MediaItemData>();
+
+            Uri imageUri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+            String[] imageProjection = {
+                    MediaStore.Images.Media.DATA,
+                    MediaStore.Images.Media.DATE_TAKEN
+            };
+
+            Cursor imageCursor = getContentResolver().query(imageUri, imageProjection, null,
+                    null, null);
+
+            int image_column_index_data = imageCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            int image_column_index_taken_date = imageCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN);
+
+            while (imageCursor.moveToNext()) {
+                String path = imageCursor.getString(image_column_index_data);
+                String date = imageCursor.getString(image_column_index_taken_date);
+
+                MediaItemData md = new MediaItemData();
+                md.setIsVideo(false);
+                md.setFilePath(path);
+                md.setTakenDate(date);
+//            Log.i("path", absolutePathOfImage);
+
+                list.add(md);
+            }
+
+
+            Uri videoUri = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+
+            String[] videoProjection = {
+                    MediaStore.Video.Media.DATA,
+                    MediaStore.Video.Media.DISPLAY_NAME,
+                    MediaStore.Video.Media.SIZE,
+                    MediaStore.Video.Media.MIME_TYPE,
+                    MediaStore.Video.Media.DATE_TAKEN
+            };
+
+            Cursor videoCursor = getContentResolver().query(videoUri, videoProjection, null,
+                    null, null);
+
+            int video_column_index_data = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            int video_column_index_name = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
+            int video_column_index_size = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE);
+            int video_column_index_type = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media.MIME_TYPE);
+            int video_column_index_taken_date = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_TAKEN);
+
+            while (videoCursor.moveToNext()) {
+                String path = videoCursor.getString(video_column_index_data);
+                String date = videoCursor.getString(video_column_index_taken_date);
+                String name = videoCursor.getString(video_column_index_name);
+                String type = videoCursor.getString(video_column_index_type);
+                float size = videoCursor.getFloat(video_column_index_size);
+
+                MediaItemData md = new MediaItemData();
+                md.setIsVideo(true);
+                md.setFilePath(path);
+                md.setTakenDate(date);
+                md.setFileName(name);
+                md.setFileType(type);
+                md.setFileSize(size / 1024 / 1024);
+
+                list.add(md);
+            }
+
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<MediaItemData> mediaItemDatas) {
+            super.onPostExecute(mediaItemDatas);
+
+            Log.i("list size", mediaItemDatas.size()+"");
+
+            allList.addAll(mediaItemDatas);
+            for (MediaItemData md : mediaItemDatas) {
+                if (md.isVideo()) {
+                    videoList.add(md);
+                } else {
+                    imageList.add(md);
+                }
+            }
+
+            allFragment = new AllFragment();
+            Bundle allBundle = new Bundle();
+            allBundle.putSerializable(KEY_ALL, allList);
+            allFragment.setArguments(allBundle);
+
+            pictureFragment = new PictureFragment();
+            Bundle pictureBundle = new Bundle();
+            pictureBundle.putSerializable(KEY_PICTURE, imageList);
+            pictureFragment.setArguments(pictureBundle);
+
+            videoFragment = new VideoFragment();
+            Bundle videoBundle = new Bundle();
+            videoBundle.putSerializable(KEY_VIDEO, videoList);
+            videoFragment.setArguments(videoBundle);
+
+            // init Pager
+            initPager();
+
+        }
+
     }
 
 }

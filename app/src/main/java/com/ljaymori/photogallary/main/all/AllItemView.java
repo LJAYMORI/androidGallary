@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ljaymori.photogallary.R;
+import com.ljaymori.photogallary.main.MediaItemData;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class AllItemView extends RecyclerView.ViewHolder {
 
@@ -17,16 +19,16 @@ public class AllItemView extends RecyclerView.ViewHolder {
         ivPlay = (ImageView) itemView.findViewById(R.id.image_play_all);
     }
 
-    public void setAllItemView(AllItemData ad) {
-//        ImageLoader.getInstance().displayImage(ad.getFilePath(), ivThumbnail);
-        setPlayImage(ad.isVideo());
-    }
-
-    private void setPlayImage(boolean check) {
-        if(check) {
+    public void setAllItemView(MediaItemData md) {
+        if(md.isVideo()) {
             ivPlay.setVisibility(View.VISIBLE);
+//            Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(md.getFilePath(), MediaStore.Images.Thumbnails.MICRO_KIND);
+//            ivThumbnail.setImageDrawable(new BitmapDrawable(GallaryApplication.getContext().getResources(), thumbnail));
+
         } else {
             ivPlay.setVisibility(View.GONE);
+
         }
+        ImageLoader.getInstance().displayImage("file://" + md.getFilePath(), ivThumbnail);
     }
 }

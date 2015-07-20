@@ -8,8 +8,13 @@
     <dimen name="actionbar_tab_top_bottom_padding">10dp</dimen>
     <dimen name="actionbar_tab_width">60dp</dimen>
 
+    <!-- Item Common -->
+    <dimen name="item_margin">3dp</dimen>
+
+
     <!-- All -->
     <dimen name="all_item_width_height">120dp</dimen>
+
 
     <!-- Video -->
     <dimen name="video_item_height">100dp</dimen>

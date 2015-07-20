@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ljaymori.photogallary.R;
+import com.ljaymori.photogallary.main.MainActivity;
+import com.ljaymori.photogallary.main.MediaItemData;
 import com.ljaymori.photogallary.main.TabParentFragment;
 
 import java.util.ArrayList;
@@ -33,24 +35,10 @@ public class AllFragment extends TabParentFragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         mAdapter = new AllItemAdapter(getActivity());
-        mAdapter.addAll(initData());
+        mAdapter.addAll((ArrayList<MediaItemData>) getArguments().getSerializable(MainActivity.KEY_ALL));
 
         recyclerView.setAdapter(mAdapter);
 
         return v;
     }
-
-    private ArrayList<AllItemData> initData() {
-        ArrayList<AllItemData> list = new ArrayList<AllItemData>();
-
-        for (int i = 0; i < 50; i++) {
-            AllItemData ad = new AllItemData();
-            ad.setIsVideo( (i % 5 == 0) ? true : false );
-
-            list.add(ad);
-        }
-
-        return list;
-    }
-
 }

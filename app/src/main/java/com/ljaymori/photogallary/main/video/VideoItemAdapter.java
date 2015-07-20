@@ -7,19 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ljaymori.photogallary.R;
+import com.ljaymori.photogallary.main.MediaItemData;
 
 import java.util.ArrayList;
 
 public class VideoItemAdapter extends RecyclerView.Adapter<VideoItemView> {
 
     private Context mContext;
-    private ArrayList<VideoItemData> items = new ArrayList<VideoItemData>();
+    private ArrayList<MediaItemData> items = new ArrayList<MediaItemData>();
 
     public VideoItemAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void addAll(ArrayList<VideoItemData> list) {
+    public void addAll(ArrayList<MediaItemData> list) {
         items.addAll(list);
     }
 

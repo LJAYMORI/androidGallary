@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/video_item_height"
+    android:layout_margin="@dimen/item_margin"
     android:weightSum="100">
 
     <FrameLayout
@@ -14,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/video_item_image_margin"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
 
         <ImageView
             android:layout_width="match_parent"

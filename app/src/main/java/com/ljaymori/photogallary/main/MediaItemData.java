@@ -1,13 +1,26 @@
-package com.ljaymori.photogallary.main.video;
+package com.ljaymori.photogallary.main;
 
-public class VideoItemData {
+import java.io.Serializable;
+
+public class MediaItemData implements Serializable {
+
+    private boolean isVideo;
 
     private String filePath;
     private String fileName;
     private String fileType;
-    private String fileThumbnail;
     private String takenDate;
+
     private float fileSize;
+
+
+    public boolean isVideo() {
+        return isVideo;
+    }
+
+    public void setIsVideo(boolean isVideo) {
+        this.isVideo = isVideo;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -31,14 +44,6 @@ public class VideoItemData {
 
     public void setFileType(String fileType) {
         this.fileType = fileType;
-    }
-
-    public String getFileThumbnail() {
-        return fileThumbnail;
-    }
-
-    public void setFileThumbnail(String fileThumbnail) {
-        this.fileThumbnail = fileThumbnail;
     }
 
     public String getTakenDate() {

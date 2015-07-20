@@ -49,11 +49,6 @@
             android:text="@string/actionbar_video"
             android:textColor="@color/actionbar_letter_unfocus" />
 
-        <TextView
-            android:id="@+id/text_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TEST" />
     </LinearLayout>
 
 </RelativeLayout>
