@@ -14,6 +14,9 @@
       </layout>
     </layouts>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d2bcd6af-11e6-4933-981b-8a243d03d9b2" name="Default" comment="" />
     <ignored path="androidGallary.iws" />
